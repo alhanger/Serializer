@@ -14,12 +14,7 @@ public class Serializer {
         Answers answers = loadAnswers();
 
         if (answers != null) {
-            System.out.println("ANSWERS:");
-            System.out.println(String.format("Artist: %s", answers.artist));
-            System.out.println(String.format("Album: %s", answers.album));
-            System.out.println(String.format("Genre: %s", answers.genre));
-            System.out.println(String.format("Favorite Track: %s", answers.favTrack));
-            System.out.println(String.format("Least Favorite Track: %s", answers.leastFav));
+            printAnswers(answers);
             System.out.println("Would you like to revise these answers? [y/n]");
             Scanner scanner = new Scanner(System.in);
             String prompt = scanner.nextLine();
@@ -45,9 +40,13 @@ public class Serializer {
                         answers.leastFav = newAnswer;
                         break;
                 }
+                printAnswers(answers);
+            }
+            else if (prompt.equals("n")) {
+                System.out.println("Thanks for stopping by.");
             }
             else {
-                System.out.println("Thanks for stopping by.");
+                System.out.println("That is not a valid option.");
             }
         }
         else {
@@ -111,8 +110,16 @@ public class Serializer {
             JsonParser parser = new JsonParser();
             return parser.parse(fileContents, Answers.class);
         } catch (Exception e) {
-            System.out.println("Parsing failed.");
             return null;
         }
+    }
+
+    static void printAnswers(Answers answers) {
+        System.out.println("ANSWERS:");
+        System.out.println(String.format("Artist: %s", answers.artist));
+        System.out.println(String.format("Album: %s", answers.album));
+        System.out.println(String.format("Genre: %s", answers.genre));
+        System.out.println(String.format("Favorite Track: %s", answers.favTrack));
+        System.out.println(String.format("Least Favorite Track: %s", answers.leastFav));
     }
 }
