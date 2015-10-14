@@ -14,11 +14,37 @@ public class Serializer {
         Answers answers = loadAnswers();
 
         if (answers != null) {
-            System.out.println("Would you like to revise your survey? [y/n]");
+            System.out.println("ANSWERS:");
+            System.out.println(String.format("Artist: %s", answers.artist));
+            System.out.println(String.format("Album: %s", answers.album));
+            System.out.println(String.format("Genre: %s", answers.genre));
+            System.out.println(String.format("Favorite Track: %s", answers.favTrack));
+            System.out.println(String.format("Least Favorite Track: %s", answers.leastFav));
+            System.out.println("Would you like to revise these answers? [y/n]");
             Scanner scanner = new Scanner(System.in);
             String prompt = scanner.nextLine();
             if (prompt.equals("y")) {
-                survey(answers);
+                System.out.println("Which answer would you like to change?");
+                String newField = scanner.nextLine().toLowerCase();
+                System.out.println("Please enter your new answer.");
+                String newAnswer = scanner.nextLine();
+                switch (newField) {
+                    case "artist" :
+                        answers.artist = newAnswer;
+                        break;
+                    case "album" :
+                        answers.album = newAnswer;
+                        break;
+                    case "genre" :
+                        answers.genre = newAnswer;
+                        break;
+                    case "favorite track" :
+                        answers.favTrack = newAnswer;
+                        break;
+                    case "least favorite track" :
+                        answers.leastFav = newAnswer;
+                        break;
+                }
             }
             else {
                 System.out.println("Thanks for stopping by.");
@@ -81,7 +107,6 @@ public class Serializer {
             char[] contents = new char[fileSize];
             fr.read(contents);
             String fileContents = new String(contents);
-            System.out.println(fileContents);
 
             JsonParser parser = new JsonParser();
             return parser.parse(fileContents, Answers.class);
